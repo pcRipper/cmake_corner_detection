@@ -1,3 +1,19 @@
+# Directiories
+/images/
+/build/
+/.vs/
+/cmake_corner_detection.dir/
+/Debug/
+/x64/
+
+#Files
+
+*.vcxproj
+*.filters
+*.sln
+
+# Standard
+
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
