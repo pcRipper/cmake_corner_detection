@@ -1,6 +1,6 @@
 #include "../../Headers/CornerDetectionAlgorithms/FAST.hpp"
 
-bool isCorner(const cv::Mat& image, const int x, const int y, const int THRESHOLD) {
+bool isCorner(const cv::Mat& image, const int x, const int y, const int threshold) {
     // Circle points
     static const int OFFSETS[16][2] = {
         {-3, 0}, {-3, 1}, {-2, 2}, {-1, 3},
@@ -22,9 +22,9 @@ bool isCorner(const cv::Mat& image, const int x, const int y, const int THRESHOL
         if (offsetX >= 0 && offsetX < image.cols && offsetY >= 0 && offsetY < image.rows) {
             int neighborValue = image.at<uchar>(offsetY, offsetX);
 
-            if (neighborValue - pixelValue > THRESHOLD) {
+            if (neighborValue - pixelValue > threshold) {
                 ++brighterCount;
-            } else if (pixelValue - neighborValue > THRESHOLD) {
+            } else if (pixelValue - neighborValue > threshold) {
                 ++darkerCount;
             }
         }
@@ -34,14 +34,14 @@ bool isCorner(const cv::Mat& image, const int x, const int y, const int THRESHOL
     return brighterCount >= 12 || darkerCount >= 12;
 }
 
-std::vector<cv::Point>* FAST(const cv::Mat& image,const int THRESHOLD) {
+std::vector<cv::Point>* FAST(const cv::Mat& image,const int threshold) {
 
     const std::pair<int,int> range = std::make_pair(image.rows - 3, image.cols - 3);
     std::vector<cv::Point>* corner_positions = new std::vector<cv::Point>();
 
     for (int y = 3; y < image.rows - 3; ++y) {
         for (int x = 3; x < image.cols - 3; ++x) {
-            if (isCorner(image, x, y, THRESHOLD)) {
+            if (isCorner(image, x, y, threshold)) {
                 corner_positions->push_back(cv::Point(x,y));
             }
         }

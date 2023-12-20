@@ -4,7 +4,9 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include "../Functions.hpp"
-#include "FAST.hpp"
+#include "./FAST.hpp"
+
+std::vector<cv::Mat>* pyramidRepresntation(const cv::Mat& image, const int levels);
 
 /// @brief 
 /// @param stream list of consecutive images
