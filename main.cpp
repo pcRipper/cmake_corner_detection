@@ -3,40 +3,45 @@
 #include <opencv2/highgui/highgui.hpp>
 
 #include "bin/Headers/CornderDetectionAlgorithms.hpp"
+#include "bin/Headers/MediaLoader.hpp"
+#include "bin/Headers/Functions.hpp"
 
-int main(int argc,char** argv){
-
+void example_FAST(){
     using namespace std;
+    using namespace cv;
+
+    const vector<pair<string,int>> paths = {
+        {"D://code//cpp/projects//cmake_corner_detection//images//examples_fast//signal-2023-12-14-212155_002.jpeg", IMREAD_GRAYSCALE},
+        {"D://code//cpp/projects//cmake_corner_detection//images//examples_fast//signal-2023-12-14-212155_003.jpeg", IMREAD_GRAYSCALE}
+    };
+    const int THRESHOLD = 30;    
 
     try{
+        auto images = *MediaLoader::loadImages(paths);
+        if(images.size() == 0)throw exception("No images were loaded");
 
-        someFunc();
+        for(const auto& image : images){
+            
+            auto corners = *FAST(image, THRESHOLD);
+            Mat image_copy = image.clone();
 
-        cout << "Starting a program!\n";
-        cout << "Loading an image...\n";
+            Functions::markCorners(image_copy, corners);
 
-        const cv::String IMG_PATH = "D://code//cpp//projects//cmake_corner_detection//images//bubble_cat.jpg";
-        cout << IMG_PATH << '\n';
-        cv::Mat image = cv::imread(IMG_PATH);
-
-        // Check if the image was successfully loaded
-        if (image.empty()) {
-            std::cerr << "Error: Could not open or find the image.\n";
-            return -1;
+            imshow("Original Image", image);
+            imshow("FAST Corner Detection", image_copy);
+            waitKey(0);
         }
-
-        // Display the image in a window
-        cv::imshow("Image", image);
-
-        // Wait for a key press and then close the window
-        cv::waitKey(0);
-        cv::destroyAllWindows();
     }
     catch(const exception& ex) {
 
-        cout << ex.what() << '\n';
+        cout << "Error occured: " << ex.what() << '\n';
 
     }
+}
+
+int main(int argc,char** argv){
+
+    example_FAST();
 
     return 0;
 }
