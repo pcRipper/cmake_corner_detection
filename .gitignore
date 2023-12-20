@@ -1,10 +1,11 @@
 # Directiories
-/images/
+# /images/
 /build/
 /.vs/
 /cmake_corner_detection.dir/
 /Debug/
 /x64/
+/.vscode/
 
 #Files
 

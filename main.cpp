@@ -2,7 +2,8 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include "bin/Headers/CornderDetectionAlgorithms.hpp"
+#include "bin/Headers/CornerDetectionAlgorithms/FAST.hpp"
+#include "bin/Headers/CornerDetectionAlgorithms/KLT.hpp"
 #include "bin/Headers/MediaLoader.hpp"
 #include "bin/Headers/Functions.hpp"
 
@@ -39,9 +40,40 @@ void example_FAST(){
     }
 }
 
+void example_KLT(){
+    using namespace std;
+    using namespace cv;
+
+    try{
+        const String PATH = "D://code//cpp/projects//cmake_corner_detection//images//examples_klt//4.gif";
+        auto gif = *MediaLoader::loadGIF(PATH);
+
+        if(gif.size() == 0){
+            throw exception("Could not open the GIF file.\n");
+        }
+        
+        auto gif_tracked = *Functions::map<Mat,Mat>(gif, [](const Mat& obj){
+            Mat result = obj.clone();
+            Functions::markCorners(result, *FAST(Functions::grayScale(result), 30));
+            return result;
+        });
+
+        Functions::showGIF(gif_tracked, 50, true);
+
+
+    }
+    catch(const exception& ex) {
+
+        cout << "Error occured: " << ex.what() << '\n';
+
+    }
+}
+
 int main(int argc,char** argv){
 
-    example_FAST();
+    // example_FAST();
+
+    example_KLT();
 
     return 0;
 }
