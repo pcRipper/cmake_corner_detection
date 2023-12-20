@@ -14,7 +14,7 @@ void example_FAST(){
         {"D://code//cpp/projects//cmake_corner_detection//images//examples_fast//signal-2023-12-14-212155_002.jpeg", IMREAD_GRAYSCALE},
         {"D://code//cpp/projects//cmake_corner_detection//images//examples_fast//signal-2023-12-14-212155_003.jpeg", IMREAD_GRAYSCALE}
     };
-    const int THRESHOLD = 30;    
+    const int THRESHOLD = 20;    
 
     try{
         auto images = *MediaLoader::loadImages(paths);
